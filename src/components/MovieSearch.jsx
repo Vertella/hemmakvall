@@ -1,13 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { searchMovies } from "../features/movies/moviesSlice";
 import MovieCard from "./MovieCard";
+import { fetchRandomMovies } from "../features/movies/moviesSlice";
 
 const MovieSearch = () => {
   const [query, setQuery] = useState("");
   const dispatch = useDispatch();
 
   const { moviesList, loading, error } = useSelector((state) => state.movies);
+
+   // Fetch random movies when the component mounts
+   useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        await dispatch(fetchRandomMovies()).unwrap(); // Dispatch random movies action
+      } catch (error) {
+        console.error("Error fetching random movies:", error);
+      }
+    };
+    
+    fetchMovies();
+  }, [dispatch]);
 
   const handleSearch = async () => {
     if (!query.trim()) return; // Prevent empty searches
