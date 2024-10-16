@@ -48,13 +48,13 @@ const moviesSlice = createSlice({
   name: 'movies',
   initialState: {
     moviesList: [],
-    movieDetails: {},
+    movieDetails: null,
     loading: false,
     error: null,
   },
   reducers: {
     clearMovieDetails: (state) => {
-      state.movieDetails = {};
+      state.movieDetails = null;
       state.error = null;
     },
   },
@@ -85,7 +85,7 @@ const moviesSlice = createSlice({
       })
       .addCase(fetchMovieDetails.rejected, (state, action) => {
         state.loading = false;
-        state.error = (action.payload && action.payload.status_message) || 'Failed to search movies';
+        state.error = (action.payload && action.payload.status_message) || 'Failed to fetch movies';
 
       });
   },
