@@ -7,6 +7,22 @@ import axios from 'axios';
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+// Action to fetch random or popular movies
+export const fetchRandomMovies = createAsyncThunk(
+  "movies/fetchRandomMovies",
+  async () => {
+    const response = await axios.get(
+      `${BASE_URL}/movie/popular`, {
+        params: {
+          api_key: API_KEY,
+        },
+      }
+    );
+    return response.data.results;
+  }
+);
+
+
 // Async thunk to search movies by title
 export const searchMovies = createAsyncThunk(
   'movies/searchMovies',
@@ -61,6 +77,18 @@ const moviesSlice = createSlice({
   extraReducers: (builder) => {
     // Handle searchMovies
     builder
+    .addCase(fetchRandomMovies.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(fetchRandomMovies.fulfilled, (state, action) => {
+      state.moviesList = action.payload;
+      state.loading = false;
+    })
+    .addCase(fetchRandomMovies.rejected, (state, action) => {
+      state.error = action.error.message;
+      state.loading = false;
+    })
       .addCase(searchMovies.pending, (state) => {
         state.loading = true;
         state.error = null;
