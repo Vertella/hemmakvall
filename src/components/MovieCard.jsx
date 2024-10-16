@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addFavorite, removeFavorite } from "../store/favoritesSlice.jsx";
+import { addFavorite, removeFavorite } from "../features/movies/favoritesSlice.jsx";
 import { FaStar, FaRegStar } from "react-icons/fa";
 
 const MovieCard = ({ movie }) => {
@@ -10,8 +10,9 @@ const MovieCard = ({ movie }) => {
     : "https://via.placeholder.com/500x750?text=No+Image";
 
   const dispatch = useDispatch();
-  const favorites = useSelector((state) => state.favorites.items);
-  const isFavorite = favorites.some((fav) => fav.id === movie.id);
+  const favorites = useSelector((state) => state.favorites.favoritesList);
+  console.log(favorites);
+  const isFavorite = Array.isArray(favorites) && favorites.some((fav) => fav.id === movie.id);
 
   const handleFavoriteClick = () => {
     if (isFavorite) {
@@ -28,6 +29,10 @@ const MovieCard = ({ movie }) => {
           src={posterUrl}
           alt={movie.title}
           className="w-full h-80 object-cover"
+          onError={(e) => {
+            e.target.onerror = null; // prevents looping
+            e.target.src = "https://via.placeholder.com/500x750?text=No+Image";
+          }}
         />
         <div className="p-4">
           <h2 className="text-xl font-semibold text-lightGray">

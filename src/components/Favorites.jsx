@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeFavorite } from '../store/favoritesSlice.jsx';
+import { removeFavorite } from '../features/movies/favoritesSlice.jsx';
 import { Link } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
 
 const Favorites = () => {
   const dispatch = useDispatch();
-  const favorites = useSelector((state) => state.favorites?.items) || [];
+  const favorites = useSelector((state) => state.favorites?.favoritesList) || [];
   console.log("Favorites from Redux store:", favorites);
 
   const handleRemoveFavorite = (id) => {
@@ -27,7 +27,7 @@ const Favorites = () => {
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {favorites.map((movie) => (
           <li key={movie.id} className="bg-theaterGray rounded-lg overflow-hidden shadow-md relative">
-            <Link to={`/movie/${movie.id}`} className="block">
+            <Link to={`/movies/${movie.id}`} className="block">
               <img
                 src={
                   movie.poster_path

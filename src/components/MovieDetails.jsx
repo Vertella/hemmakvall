@@ -1,26 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchMovieDetails } from '../api/movieApi';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMovieDetails } from '../features/movies/moviesSlice';
 
 const MovieDetails = () => {
   const { id } = useParams(); // Get movie ID from URL
-  const [movie, setMovie] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { movieDetails, loading, error } = useSelector((state) => state.movies);
 
   useEffect(() => {
-    const getMovieDetails = async () => {
-      try {
-        const movieDetails = await fetchMovieDetails(id);
-        setMovie(movieDetails);
-        setLoading(false);
-      } catch (error) {
-        console.error("Failed to fetch movie details:", error);
-        setLoading(false);
-      }
-    };
+    console.log("Fetching details for movie ID:", id); // Add this line
+    dispatch(fetchMovieDetails(id));
 
-    getMovieDetails();
-  }, [id]);
+    return () => {
+      dispatch(clearMovieDetails());
+    };
+  }, [dispatch, id]);
 
   if (loading) {
     return (

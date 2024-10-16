@@ -1,23 +1,29 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { fetchMovies } from "../api/movieApi";
+import { useSelector, useDispatch } from "react-redux";
+import { searchMovies } from "../features/movies/moviesSlice";
 import MovieCard from "./MovieCard";
 
 const MovieSearch = () => {
   const [query, setQuery] = useState("");
-  const [movies, setMovies] = useState([]);
   const dispatch = useDispatch();
+
+  const { moviesList, loading, error } = useSelector((state) => state.movies);
 
   const handleSearch = async () => {
     if (!query.trim()) return; // Prevent empty searches
     try {
-      const results = await fetchMovies(query);
-      setMovies(results);
+      await dispatch(searchMovies(query)).unwrap();
     } catch (error) {
-      console.error("Failed to fetch movies:", error);
-      // Optionally, set an error state to display a message to the user
+      console.error("Error searching movies:", error);
     }
   };
+  
+
+    const handleKeyPress = (e) => {
+      if (e.key === 'Enter') {
+        handleSearch();
+      }
+    }
 
   return (
     <div className="container mx-auto px-6 py-8">
@@ -26,6 +32,7 @@ const MovieSearch = () => {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          onKeyPress={handleKeyPress}
           placeholder="Search for a movie..."
           className="w-full sm:w-2/3 p-3 rounded-md bg-theaterGray text-lightGray placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-theaterRed"
         />
@@ -36,8 +43,12 @@ const MovieSearch = () => {
           Search
         </button>
       </div>
+
+      {loading && <p>Loading movies...</p>}
+      {error && <p className="text-red-500">Error: {error}</p>}
+
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {movies.map((movie) => (
+        {moviesList.map((movie) => (
           <li key={movie.id} className="relative">
             <MovieCard movie={movie} />
           </li>
