@@ -6,6 +6,7 @@ import MovieSearch from './components/MovieSearch.jsx';
 import Favorites from './components/Favorites.jsx';
 import MovieDetails from './components/MovieDetails.jsx';
 import { Helmet } from 'react-helmet';
+import theater from './assets/theater.jpg';
 
 function App() {
 
@@ -13,11 +14,16 @@ function App() {
     <Router>
        <div
         className="min-h-screen bg-theaterBlack bg-cover bg-center"
-        style={{ backgroundImage: `url('./assets/theater.jpg')` }}
+
       >
+        <div
+      className="absolute inset-0 bg-cover bg-center bg-fixed opacity-60" // Adjust opacity if needed
+      style={{ backgroundImage: `url(${theater})`, backgroundAttachment: 'fixed' }}
+    />
+    <div className="relative z-10">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Movie App</title>
+          <title>Hemmakvälls Filmbibliotek</title>
           <meta name="description" content="Search and manage your favorite movies." />
           <meta name="keywords" content="movies, search, favorites, Hemmakvälls Filmbibliotek" />
           <link rel="canonical" href="https://vertella.github.io/hemmakvall/" />
@@ -34,6 +40,7 @@ function App() {
           <Route path="/movie/:id" element={<MovieDetails />} />
           <Route path="/favorites" element={<Favorites />} />
         </Routes>
+        </div>
       </div>
     </Router>
   )

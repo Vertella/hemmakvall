@@ -5,5 +5,4 @@ Disallow: /admin/
 # Allow all crawlers to index everything else
 Allow: /
 
-# Specify the location of the sitemap
-Sitemap: https://vertella.github.io/hemmakvall/generate-sitemap.js
+Sitemap: https://vertella.github.io/hemmakvall/sitemap.xml
