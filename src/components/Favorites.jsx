@@ -2,17 +2,19 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFavorite } from '../features/movies/favoritesSlice.jsx';
 import { Link } from 'react-router-dom';
-import { FaStar } from 'react-icons/fa';
+import { FaStar } from 'react-icons/fa'; // Star Icon
 
 const Favorites = () => {
-  const dispatch = useDispatch();
-  const favorites = useSelector((state) => state.favorites?.favoritesList) || [];
+  const dispatch = useDispatch(); // Hook to dispatch actions to Redux
+  const favorites = useSelector((state) => state.favorites?.favoritesList) || []; // Access the list of favorite movies from Redux, default to an empty array if undefined
   console.log("Favorites from Redux store:", favorites);
 
+  // Handler to remove a movie from the favorites list
   const handleRemoveFavorite = (id) => {
-    dispatch(removeFavorite(id));
+    dispatch(removeFavorite(id)); // Dispatch the action to remove the movie by its ID
   };
 
+  // If there are no favorite movies, display a message
   if (!favorites) {
     return (
       <div className="container mx-auto px-6 py-8 text-center text-lightGray">
