@@ -1,8 +1,14 @@
 # Hemmakvälls Filmbibliotek
 
-Den här appen låter användaren att söka efter och se en lista på filmer från themoviedb. 
+This application let's you browse, search and view movies. You can also save them to your favorites, that will be saved between reloads of the page. 
 
 ## Features
+- Search for movies using the movie database API.
+- View detailed information about each movie.
+- Add or remove movies from your favorites list.
+- Display popular movies upon page load before searching.
+- Responsive design with Tailwind CSS.
+- Redux state management for handling movie data and favorites.
 
 ## Technologies Used
 
