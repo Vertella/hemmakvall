@@ -10,7 +10,7 @@ const MovieDetails = () => {
 
   useEffect(() => {
     if (id) {
-    console.log("Fetching details for movie ID:", id); // Add this line
+    console.log("Fetching details for movie ID:", id); 
     dispatch(fetchMovieDetails(id));
     }
 
@@ -60,7 +60,6 @@ const MovieDetails = () => {
           <p>
             <span className="font-semibold">Rating:</span> {movieDetails.vote_average} / 10
           </p>
-          {/* Add more details as needed */}
         </div>
       </div>
     </div>

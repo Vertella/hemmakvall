@@ -20,6 +20,14 @@ const favoritesSlice = createSlice({
       const movie = action.payload;
       if (!state.favoritesList.find((item) => item.id === movie.id)) {
         state.favoritesList.push(movie);
+
+        if (window.dataLayer) {
+          window.dataLayer.push({
+            event: 'add_to_favorites',
+            movie_id: movie.id,
+            movie_title: movie.title,
+          });
+        }
       }
     },
     removeFavorite: (state, action) => {
